@@ -58,13 +58,19 @@ ext {
     dagger2_version = '2.0.2'
     butter_knife_version = '7.0.1'
     okhttp_version = '3.1.2'
-    retrofit_version = '2.0.0-beta4'
+    retrofit_version = '2.0.0'
     retrofit_gson_version = '2.0.0-beta2'
     retrofit_xml_version = '2.0.0-beta4'
+    retrofit_rxandroid_version = '2.0.0-beta4'
     rxandroid_version = '1.0.1'
     rxjava_version = '1.0.16'
     gson_version = '2.4'
 }
+
+kapt {
+    generateStubs = true
+}
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -84,10 +90,12 @@ dependencies {
 
     // okhttp
     compile "com.squareup.okhttp3:okhttp:${okhttp_version}"
+    compile 'com.squareup.okhttp3:logging-interceptor:3.1.2'
 
     // retrofit
-    compile "com.squareup.retrofit:retrofit:${retrofit_version}"
-    compile "com.squareup.retrofit:converter-gson:${retrofit_gson_version}"
+    compile "com.squareup.retrofit2:retrofit:${retrofit_version}"
+    compile "com.squareup.retrofit2:adapter-rxjava:${retrofit_rxandroid_version}"
+    compile "com.squareup.retrofit2:converter-gson:${retrofit_xml_version}"
     compile("com.squareup.retrofit2:converter-simplexml:${retrofit_xml_version}") {
         exclude module: 'stax'
         exclude module: 'stax-api'
@@ -97,7 +105,7 @@ dependencies {
     // RxAndroid
     compile "io.reactivex:rxandroid:${rxandroid_version}"
     compile "io.reactivex:rxjava:${rxjava_version}"
-    compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
 
     // Gson
     compile "com.google.code.gson:gson:${gson_version}"

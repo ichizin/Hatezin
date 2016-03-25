@@ -2,7 +2,13 @@
 <manifest package="com.ichizin.hatezin"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- インターネット -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- ネットワークの状態を知る -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <application
+        android:name=".HatezinApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

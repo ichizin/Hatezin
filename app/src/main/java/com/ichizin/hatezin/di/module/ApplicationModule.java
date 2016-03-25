@@ -8,8 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ichizin.hatezin.BuildConfig;
 import com.ichizin.hatezin.HatezinApplication;
-import com.ichizin.hatezin.di.scope.ApplicationScope;
-import com.ichizin.hatezin.util.HttpLoggingInterceptor;
+import com.ichizin.hatezin.util.RequestInterceptor;
 
 import javax.inject.Singleton;
 
@@ -18,6 +17,7 @@ import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * Application module
@@ -35,7 +35,6 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    @ApplicationScope
     public Context provideContext() {
         return application;
     }
@@ -65,19 +64,20 @@ public class ApplicationModule {
     @Provides
     @Singleton
     public Interceptor provideInterceptor(ConnectivityManager connectivityManager) {
-        if(BuildConfig.DEBUG) {
-            return new HttpLoggingInterceptor(connectivityManager, HttpLoggingInterceptor.Level.BASIC);
-        } else {
-            return new HttpLoggingInterceptor(connectivityManager, HttpLoggingInterceptor.Level.NONE);
-        }
+        return new RequestInterceptor(connectivityManager);
     }
+
 
     @Provides
     @Singleton
     public OkHttpClient provideOkhttp(Cache cache, Interceptor interceptor) {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.cache(cache)
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                .cache(cache)
                 .addInterceptor(interceptor);
+        if(BuildConfig.DEBUG) {
+            builder.addInterceptor(
+                    new okhttp3.logging.HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+        }
         return builder.build();
     }
 
