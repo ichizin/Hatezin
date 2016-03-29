@@ -1,5 +1,7 @@
 package com.ichizin.hatezin.model;
 
+import com.ichizin.hatezin.util.HatenaCategory;
+
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Namespace;
@@ -9,12 +11,14 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by ichizin on 16/03/24.
+ *
  *
  * @author ichizin
  */
 @Root(name = "item", strict = false)
 public class HatenaEntry {
+
+    private static final String IMAGE_PREFIX_URL = "http://cdn-ak.b.st-hatena.com/entryimage/";
 
     @Element(name = "title")
     private String title;
@@ -28,14 +32,18 @@ public class HatenaEntry {
 //    @Namespace(prefix = "dc")
 //    @Element(name = "date")
 //    private Date date;
-//
-//    @Namespace(prefix = "dc")
-//    @ElementList(entry = "subject", inline = true, required = false)
-//    private List<String> subject;
-//
-//    @Namespace(prefix = "hatena")
-//    @Element(name = "bookmarkcount")
-//    private int bookmarkCount;
+
+    @Namespace(prefix = "dc")
+    @ElementList(entry = "subject", inline = true, required = false)
+    private List<String> subject;
+
+    @Namespace(prefix = "hatena")
+    @Element(name = "bookmarkcount")
+    private int bookmarkCount;
+
+    private boolean isTitle;
+
+    private HatenaCategory hatenaCategory;
 
     public String getTitle() {
         return title;
@@ -69,19 +77,43 @@ public class HatenaEntry {
 //        this.date = date;
 //    }
 //
-//    public List<String> getSubject() {
-//        return subject;
-//    }
-//
-//    public void setSubject(List<String> subject) {
-//        this.subject = subject;
-//    }
-//
-//    public int getBookmarkCount() {
-//        return bookmarkCount;
-//    }
-//
-//    public void setBookmarkCount(int bookmarkCount) {
-//        this.bookmarkCount = bookmarkCount;
-//    }
+    public List<String> getSubject() {
+        return subject;
+    }
+
+    public void setSubject(List<String> subject) {
+        this.subject = subject;
+    }
+
+    public int getBookmarkCount() {
+        return bookmarkCount;
+    }
+
+    public void setBookmarkCount(int bookmarkCount) {
+        this.bookmarkCount = bookmarkCount;
+    }
+
+
+    public boolean isTitle() {
+        return isTitle;
+    }
+
+    public void setIsTitle(boolean isTitle) {
+        this.isTitle = isTitle;
+    }
+
+    public HatenaCategory getHatenaCategory() {
+        return hatenaCategory;
+    }
+
+    public void setHatenaCategory(HatenaCategory hatenaCategory) {
+        this.hatenaCategory = hatenaCategory;
+    }
+
+    public String getImageUrl() {
+        String url = description.substring(description.indexOf(IMAGE_PREFIX_URL),
+                description.length() - 1);
+        return url.substring(0, url.indexOf("jpg") == 0? url.indexOf("jpeg") + 4 : url.indexOf("jpg") + 3);
+
+    }
 }

@@ -6,4 +6,9 @@
 
     <color name="default_text_color">#424242</color>
     <color name="white">#ffffff</color>
+    
+    <!-- Progress -->
+    <color name="progress_background">#424242</color>
+    <color name="progress_secondry">#BBDEFB</color>
+    <color name="progress_primary">#1976D2</color>
 </resources>
