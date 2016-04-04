@@ -1,5 +1,9 @@
 package com.ichizin.hatezin.model;
 
+
+
+import android.content.Context;
+
 import com.ichizin.hatezin.util.HatenaCategory;
 
 import org.simpleframework.xml.Element;
@@ -7,8 +11,9 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Namespace;
 import org.simpleframework.xml.Root;
 
-import java.util.Date;
 import java.util.List;
+
+import timber.log.Timber;
 
 /**
  *
@@ -32,6 +37,10 @@ public class HatenaEntry {
 //    @Namespace(prefix = "dc")
 //    @Element(name = "date")
 //    private Date date;
+
+    @Namespace(prefix = "content")
+    @Element(name = "encoded")
+    private String encoded;
 
     @Namespace(prefix = "dc")
     @ElementList(entry = "subject", inline = true, required = false)
@@ -93,6 +102,13 @@ public class HatenaEntry {
         this.bookmarkCount = bookmarkCount;
     }
 
+    public String getEncoded() {
+        return encoded;
+    }
+
+    public void setEncoded(String encoded) {
+        this.encoded = encoded;
+    }
 
     public boolean isTitle() {
         return isTitle;
@@ -110,10 +126,24 @@ public class HatenaEntry {
         this.hatenaCategory = hatenaCategory;
     }
 
-    public String getImageUrl() {
-        String url = description.substring(description.indexOf(IMAGE_PREFIX_URL),
-                description.length() - 1);
-        return url.substring(0, url.indexOf("jpg") == 0? url.indexOf("jpeg") + 4 : url.indexOf("jpg") + 3);
+    public String getCategoryName(Context context) {
+        return hatenaCategory.getName(context);
+    }
 
+    public String getImageUrl() {
+
+        Timber.d(encoded);
+        Timber.d(String.valueOf(encoded.indexOf(IMAGE_PREFIX_URL)));
+        Timber.d(String.valueOf(encoded.length()));
+
+        int index = encoded.indexOf(IMAGE_PREFIX_URL);
+
+        if(index > 0) {
+            String url = encoded.substring(encoded.indexOf(IMAGE_PREFIX_URL),
+                    encoded.length() - 1);
+            return url.substring(0, url.indexOf("jpg") == 0? url.indexOf("jpeg") + 4 : url.indexOf("jpg") + 3);
+        } else {
+            return null;
+        }
     }
 }

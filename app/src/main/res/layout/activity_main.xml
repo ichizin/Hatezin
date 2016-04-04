@@ -29,12 +29,23 @@
             android:layout_height="match_parent"
             />
 
-        <android.support.design.widget.NavigationView
-            android:id="@+id/navigation_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            />
+        <!--<android.support.design.widget.NavigationView-->
+            <!--android:id="@+id/navigation_view"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/white"-->
+            <!--/>-->
     </android.support.v4.widget.DrawerLayout>
+    <!--<Button-->
+        <!--android:id="@+id/binding_button"-->
+        <!--android:layout_width="200dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:text="Binding!!"-->
+        <!--android:background="#008080"-->
+        <!--android:textColor="#ffffff"-->
+        <!--android:layout_gravity="center"-->
+        <!--/>-->
+
+
 
 </android.support.design.widget.CoordinatorLayout>

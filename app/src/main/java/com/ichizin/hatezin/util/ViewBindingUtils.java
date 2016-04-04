@@ -13,6 +13,11 @@ import com.bumptech.glide.Glide;
  */
 public final class ViewBindingUtils {
 
+    @BindingAdapter({"bind:imageUrl"})
+    public static void loadImage(ImageView view, String url) {
+        Glide.with(view.getContext()).load(url).into(view);
+    }
+
     @BindingAdapter({"bind:imageUrl", "bind:error"})
     public static void loadImage(ImageView view, String url, Drawable error) {
         Glide.with(view.getContext()).load(url).error(error).into(view);

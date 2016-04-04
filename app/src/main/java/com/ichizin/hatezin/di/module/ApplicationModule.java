@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ichizin.hatezin.BuildConfig;
 import com.ichizin.hatezin.HatezinApplication;
+import com.ichizin.hatezin.util.Navigator;
 import com.ichizin.hatezin.util.RequestInterceptor;
 
 import javax.inject.Singleton;
@@ -79,6 +80,12 @@ public class ApplicationModule {
                     new okhttp3.logging.HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
         }
         return builder.build();
+    }
+
+    @Provides
+    @Singleton
+    public Navigator provideNavigator() {
+        return new Navigator();
     }
 
 }

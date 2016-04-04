@@ -37,7 +37,6 @@ public class HotEntryPresenter implements Presenter<HotEntryPresenter.HotEntryVi
 
 
     public void initialize() {
-
         this.getData();
     }
 
@@ -140,6 +139,7 @@ public class HotEntryPresenter implements Presenter<HotEntryPresenter.HotEntryVi
                                 Timber.i(entry.getTitle());
                             }
                         }
+                        hotEntryView.renderData(hatenaEntries);
                     }
                 });
         subscriptions.add(subscription);

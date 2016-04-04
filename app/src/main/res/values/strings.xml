@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Hatezin</string>
+
+
+    <!-- HatenaCategory Name -->
+    <string name="category_hot">総合</string>
+    <string name="category_social">世の中</string>
+    <string name="category_economics">経済</string>
+    <string name="category_life" >暮らし</string>
+    <string name="category_knowledge">学び</string>
+    <string name="category_it">テクノロジー</string>
+    <string name="category_entertainment">エンターテイメント</string>
+    <string name="category_game">ゲーム</string>
+    <string name="category_fun">おもしろ</string>
 </resources>
