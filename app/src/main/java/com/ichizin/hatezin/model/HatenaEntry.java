@@ -3,8 +3,10 @@ package com.ichizin.hatezin.model;
 
 
 import android.content.Context;
+import android.text.format.DateUtils;
 
 import com.ichizin.hatezin.util.HatenaCategory;
+import com.ichizin.hatezin.util.TimeUtil;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -34,9 +36,9 @@ public class HatenaEntry {
     @Element(name = "description", required = false)
     private String  description;
 
-//    @Namespace(prefix = "dc")
-//    @Element(name = "date")
-//    private Date date;
+    @Namespace(prefix = "dc")
+    @Element(name = "date")
+    private String date;
 
     @Namespace(prefix = "content")
     @Element(name = "encoded")
@@ -78,13 +80,13 @@ public class HatenaEntry {
         this.description = description;
     }
 
-//    public Date getDate() {
-//        return date;
-//    }
-//
-//    public void setDate(Date date) {
-//        this.date = date;
-//    }
+    public String getDate() {
+        return TimeUtil.convertDate(date);
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 //
     public List<String> getSubject() {
         return subject;
@@ -94,8 +96,8 @@ public class HatenaEntry {
         this.subject = subject;
     }
 
-    public int getBookmarkCount() {
-        return bookmarkCount;
+    public String getBookmarkCount() {
+        return String.valueOf(bookmarkCount);
     }
 
     public void setBookmarkCount(int bookmarkCount) {

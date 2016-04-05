@@ -78,39 +78,39 @@ public class HotEntryPresenter implements Presenter<HotEntryPresenter.HotEntryVi
                         List<HatenaEntry> results = new LinkedList<HatenaEntry>();
                         // HotEntry
                         results.add(getTitleEntry(HatenaCategory.HOT_ENTRY));
-                        results.addAll(hotEntry.items);
+                        results.addAll(hotEntry.getTake(5));
 
                         // Social
                         results.add(getTitleEntry(HatenaCategory.SOCIAL));
-                        results.addAll(social.items);
+                        results.addAll(social.getTake(5));
 
                         // Economics
                         results.add(getTitleEntry(HatenaCategory.ECONOMICS));
-                        results.addAll(economics.items);
+                        results.addAll(economics.getTake(5));
 
                         // Life
                         results.add(getTitleEntry(HatenaCategory.LIFE));
-                        results.addAll(life.items);
+                        results.addAll(life.getTake(5));
 
                         // knowledge
                         results.add(getTitleEntry(HatenaCategory.KNOWLEDGE));
-                        results.addAll(knowledge.items);
+                        results.addAll(knowledge.getTake(5));
 
                         // IT
                         results.add(getTitleEntry(HatenaCategory.IT));
-                        results.addAll(it.items);
+                        results.addAll(it.getTake(5));
 
                         // Entertaiment
                         results.add(getTitleEntry(HatenaCategory.ENTERTAINMENT));
-                        results.addAll(entertaiment.items);
+                        results.addAll(entertaiment.getTake(5));
 
                         // Game
                         results.add(getTitleEntry(HatenaCategory.GAME));
-                        results.addAll(game.items);
+                        results.addAll(game.getTake(5));
 
                         // Fun
                         results.add(getTitleEntry(HatenaCategory.FUN));
-                        results.addAll(fun.items);
+                        results.addAll(fun.getTake(5));
 
                         return results;
                     }

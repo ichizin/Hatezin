@@ -3,6 +3,7 @@ package com.ichizin.hatezin.ui.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import com.ichizin.hatezin.R;
 import com.ichizin.hatezin.model.HatenaEntry;
 import com.ichizin.hatezin.presenter.HotEntryPresenter;
 import com.ichizin.hatezin.ui.adapter.HotEntryAdapter;
+import com.ichizin.hatezin.ui.widget.DividerItemDecoration;
+import com.ichizin.hatezin.ui.widget.HotEntryGridLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,10 +106,12 @@ public class HotEntryFragment extends BaseFragment implements HotEntryPresenter.
      *
      */
     private void initUI() {
+        hotEntryAdapter = new HotEntryAdapter(getContext(), new ArrayList<HatenaEntry>());
         layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        hotEntryAdapter = new HotEntryAdapter(getContext(), new ArrayList<HatenaEntry>());
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
         recyclerView.setAdapter(hotEntryAdapter);
+
     }
 }

@@ -16,4 +16,12 @@ public class HatenaFeed {
 
     @ElementList(name = "item", inline = true)
     public List<HatenaEntry> items;
+
+
+    public List<HatenaEntry> getTake(int count) {
+        if(items == null || count == 0) {
+            return items;
+        }
+        return items.subList(0, count -1);
+    }
 }
