@@ -113,6 +113,7 @@ public class EntryDetailFragment extends BaseFragment
     private void initUI() {
 
         entryDetailAdapter = new EntryDetailAdapter(getContext(), new ArrayList<HatenaEntry>());
+        entryDetailAdapter.setEntryDetailAdapterListener(this);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(manager);
