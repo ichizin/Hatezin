@@ -27,6 +27,7 @@ public class HotEntryPresenter implements Presenter<HotEntryPresenter.HotEntryVi
 
     private HotEntryView hotEntryView;
     private HatenaClient client;
+    private boolean isRefresh = false;
 
     private CompositeSubscription subscriptions = new CompositeSubscription();
 
@@ -53,6 +54,12 @@ public class HotEntryPresenter implements Presenter<HotEntryPresenter.HotEntryVi
     @Override
     public void destroy() {
 
+    }
+
+    public void reload() {
+
+        isRefresh = true;
+        getData();
     }
 
     @SuppressWarnings("unchecked")
@@ -130,6 +137,12 @@ public class HotEntryPresenter implements Presenter<HotEntryPresenter.HotEntryVi
                     @Override
                     public void onNext(List<HatenaEntry> hatenaEntries) {
 
+                        if(isRefresh) {
+                            hotEntryView.clearAdapter();
+                            hotEntryView.visibleRefreshLoading(false);
+                            isRefresh = false;
+                        }
+
                         for (HatenaEntry entry : hatenaEntries) {
                             if (entry.isTitle()) {
                                 Timber.i("*************************");
@@ -154,6 +167,10 @@ public class HotEntryPresenter implements Presenter<HotEntryPresenter.HotEntryVi
     public interface HotEntryView {
 
         void renderData(List<HatenaEntry> feeds);
+
+        void clearAdapter();
+
+        void visibleRefreshLoading(boolean isVisible);
     }
 
     private HatenaEntry getTitleEntry(HatenaCategory category) {

@@ -27,11 +27,8 @@ public class TimeUtil {
             SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
             iso8601Format.setTimeZone(TimeZone.getDefault());
             Date date = iso8601Format.parse(iso8601UTCString);
-            Timber.d("時間: " + date);
-
             SimpleDateFormat sdf = new SimpleDateFormat(convertFormat);
             sdf.setTimeZone(TimeZone.getDefault());
-            Timber.d("変換後: " + sdf.format(date));
             return sdf.format(date);
         } catch (ParseException e) {
             Timber.e(e.getMessage());

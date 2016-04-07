@@ -1,26 +1,23 @@
 package com.ichizin.hatezin.ui.fragments;
 
 import android.content.Context;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.ichizin.hatezin.HatezinApplication;
 import com.ichizin.hatezin.R;
 import com.ichizin.hatezin.model.HatenaEntry;
-import com.ichizin.hatezin.presenter.HotEntryPresenter;
-import com.ichizin.hatezin.ui.activities.MainActivity;
-import com.ichizin.hatezin.ui.adapter.HotEntryAdapter;
-import com.ichizin.hatezin.ui.widget.DividerItemDecoration;
-import com.ichizin.hatezin.ui.widget.HotEntryGridLayoutManager;
+import com.ichizin.hatezin.presenter.EntryDetailPresenter;
+import com.ichizin.hatezin.ui.adapter.EntryDetailAdapter;
 import com.ichizin.hatezin.util.HatenaCategory;
+import com.ichizin.hatezin.util.Navigator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +31,13 @@ import butterknife.Bind;
  *
  * @author ichizin
  */
-public class HotEntryFragment extends BaseFragment
-        implements HotEntryPresenter.HotEntryView, HotEntryAdapter.HotEntryAdapterListener {
+public class EntryDetailFragment extends BaseFragment
+        implements EntryDetailPresenter.EntryDetailView, EntryDetailAdapter.EntryDetailAdapterListener {
+
+    private static final String BUNDLE_KEY = "hatena_category";
 
     @Inject
-    HotEntryPresenter presenter;
+    EntryDetailPresenter presenter;
 
     @Bind(R.id.fragment_recycler_content)
     RecyclerView recyclerView;
@@ -46,11 +45,16 @@ public class HotEntryFragment extends BaseFragment
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    private LinearLayoutManager layoutManager;
-    private HotEntryAdapter hotEntryAdapter;
+    private HatenaCategory hatenaCategory;
+    private EntryDetailAdapter entryDetailAdapter;
 
-    public static HotEntryFragment newInstance() {
-        return new HotEntryFragment();
+    public static EntryDetailFragment newInstance(HatenaCategory hatenaCategory) {
+
+        EntryDetailFragment fragment = new EntryDetailFragment();
+        Bundle args = new Bundle();
+        args.putString(BUNDLE_KEY, hatenaCategory.getCategory());
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -62,6 +66,7 @@ public class HotEntryFragment extends BaseFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.hatenaCategory = HatenaCategory.valueOfId(getArguments().getString(BUNDLE_KEY));
     }
 
     @Nullable
@@ -73,24 +78,21 @@ public class HotEntryFragment extends BaseFragment
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         if(savedInstanceState == null) {
             initUI();
-            presenter.attachView(this);
-            presenter.initialize();
+            initPresenter();
         }
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        presenter.resume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        presenter.pause();
     }
 
     @Override
@@ -101,51 +103,29 @@ public class HotEntryFragment extends BaseFragment
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.destroy();
     }
 
-    @Override
-    public void renderData(List<HatenaEntry> feeds) {
-        hotEntryAdapter.addData(feeds);
+    private void initPresenter() {
+        presenter.attachView(this);
+        presenter.getData(hatenaCategory);
     }
 
-    @Override
-    public void clearAdapter() {
-        hotEntryAdapter.clear();
-    }
-
-    /**
-     *
-     */
     private void initUI() {
-        hotEntryAdapter = new HotEntryAdapter(getContext(), new ArrayList<HatenaEntry>());
-        hotEntryAdapter.setHotEntryAdapterListener(this);
-        layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
-        recyclerView.setAdapter(hotEntryAdapter);
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                presenter.reload();
-            }
-        });
+        entryDetailAdapter = new EntryDetailAdapter(getContext(), new ArrayList<HatenaEntry>());
+        LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(entryDetailAdapter);
     }
 
     @Override
-    public void visibleRefreshLoading(boolean isVisible) {
-        swipeRefreshLayout.setRefreshing(isVisible);
+    public void renderData(List<HatenaEntry> datas) {
+        entryDetailAdapter.add(datas);
     }
 
     @Override
     public void onClickItem(String url) {
         navigator.web(getActivity(), url);
-    }
-
-    @Override
-    public void readMore(HatenaCategory hatenaCategory) {
-        navigator.entryReadMore((MainActivity)getActivity(), hatenaCategory);
     }
 }

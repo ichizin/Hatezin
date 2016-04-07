@@ -7,6 +7,7 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/hot_content"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:orientation="horizontal"
@@ -22,14 +23,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@{hatena.title}"
-                android:layout_above="@+id/date_time"
-                />
-            <TextView
-                android:id="@+id/date_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:text="@{hatena.date}"
                 />
         </RelativeLayout>
         <FrameLayout
@@ -42,13 +35,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:imageUrl="@{hatena.imageUrl}"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 />
-            <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:src="@mipmap/star"-->
-                <!--/>-->
+            <TextView
+                android:id="@+id/bookmark_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{hatena.bookmarkCount}"
+                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:layout_gravity="bottom|right"
+                android:background="@drawable/bookmark_count_background"
+                />
+
         </FrameLayout>
 
     </LinearLayout>

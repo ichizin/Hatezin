@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:orientation="horizontal"
-        android:background="#1DE9B6"
+        android:background="#0277BD"
         >
 
         <TextView
@@ -29,6 +29,7 @@
             />
 
         <TextView
+            android:id="@+id/read_more"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"

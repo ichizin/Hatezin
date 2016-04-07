@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.ichizin.hatezin.R;
 
 /**
  *
@@ -15,11 +16,11 @@ public final class ViewBindingUtils {
 
     @BindingAdapter({"bind:imageUrl"})
     public static void loadImage(ImageView view, String url) {
-        Glide.with(view.getContext()).load(url).into(view);
+        Glide.with(view.getContext()).load(url).placeholder(R.color.placeholder).into(view);
     }
 
     @BindingAdapter({"bind:imageUrl", "bind:error"})
     public static void loadImage(ImageView view, String url, Drawable error) {
-        Glide.with(view.getContext()).load(url).error(error).into(view);
+        Glide.with(view.getContext()).load(url).placeholder(R.color.placeholder).error(error).into(view);
     }
 }

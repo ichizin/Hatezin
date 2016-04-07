@@ -7,10 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.ichizin.hatezin.BR;
 import com.ichizin.hatezin.R;
 import com.ichizin.hatezin.model.HatenaEntry;
+import com.ichizin.hatezin.util.HatenaCategory;
 
 import java.util.List;
 
@@ -21,7 +24,8 @@ import java.util.List;
 public class HotEntryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public interface HotEntryAdapterListener {
-
+            void onClickItem(String url);
+            void readMore(HatenaCategory hatenaCategory);
     }
 
     public static final int TITLE_ROW = 0;
@@ -29,6 +33,7 @@ public class HotEntryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private Context context;
     private List<HatenaEntry> datas;
+    private HotEntryAdapterListener listener;
 
     public HotEntryAdapter(Context context, List<HatenaEntry> datas) {
         this.context = context;
@@ -48,14 +53,36 @@ public class HotEntryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         if(getItemViewType(position) == TITLE_ROW) {
             TitleViewHolder titleHolder = (TitleViewHolder)holder;
             titleHolder.getBinding().setVariable(BR.hatena, datas.get(position));
+
+            TextView readMoreText = (TextView)titleHolder.getBinding().getRoot().findViewById(R.id.read_more);
+            readMoreText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null) {
+                        listener.readMore(datas.get(position).getHatenaCategory());
+                    }
+                }
+            });
+
         }  else {
             DataViewHolder dataViewHolder = (DataViewHolder)holder;
             dataViewHolder.getBinding().setVariable(BR.hatena, datas.get(position));
+            LinearLayout content = (LinearLayout)dataViewHolder.getBinding().getRoot().findViewById(R.id.hot_content);
+
+            content.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null) {
+                        listener.onClickItem(datas.get(position).getLink());
+                    }
+                }
+            });
+
         }
     }
 
@@ -73,12 +100,21 @@ public class HotEntryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
+    public void setHotEntryAdapterListener(HotEntryAdapterListener listener) {
+        this.listener = listener;
+    }
+
     /**
      * Data追加
      * @param feeds
      */
     public void addData(List<HatenaEntry> feeds) {
         datas.addAll(feeds);
+        this.notifyDataSetChanged();
+    }
+
+    public void clear() {
+        datas.clear();
         this.notifyDataSetChanged();
     }
 
