@@ -1,0 +1,19 @@
+machine:
+  java:
+    version: openjdk7
+  enviroment:
+    ANDROID_HOME: /usr/local/android-sdk-linux
+
+ dependencies:
+   override:
+     - echo y | android update sdk --no-ui --filter "android-23,build-tools-23.0.2"
+
+test:
+  override:
+     - echo "Nothing to do here"
+
+deployment:
+  master:
+   branch: master
+   commands:
+    - ./gradlew assembleDebug

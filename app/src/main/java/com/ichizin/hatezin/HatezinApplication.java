@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-import com.facebook.stetho.Stetho;
+//import com.facebook.stetho.Stetho;
 import com.ichizin.hatezin.di.component.ActivityComponent;
 import com.ichizin.hatezin.di.component.ApplicationComponent;
 import com.ichizin.hatezin.di.component.DaggerApplicationComponent;
@@ -32,12 +32,12 @@ public class HatezinApplication extends Application {
         this.applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this)).build();
 
-        // TODO Debugの本番を分けるflavorを使った方が良さそう
-        Stetho.initialize(
-                Stetho.newInitializerBuilder(this)
-                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-                        .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
-                        .build());
+//        // TODO Debugの本番を分けるflavorを使った方が良さそう
+//        Stetho.initialize(
+//                Stetho.newInitializerBuilder(this)
+//                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+//                        .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+//                        .build());
 
         if(BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
